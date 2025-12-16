@@ -1,0 +1,30 @@
+from collections import Counter
+from typing import List, Tuple
+
+def find_pairs(nums: List[int], target: int) -> List[Tuple[int, int]]:
+    """
+    Return a list of unique unordered pairs (a, b) from nums that sum to target.
+    Each pair is included at most once (value-unique). Order within a pair is
+    (min, max). A pair (x, x) is included only if x appears at least twice.
+    """
+    counts = Counter(nums)
+    pairs = []
+    for x in sorted(counts):
+        y = target - x
+        if y not in counts:
+            continue
+        if x < y:
+            pairs.append((x, y))
+        elif x == y and counts[x] >= 2:
+            pairs.append((x, x))
+    return pairs
+
+if __name__ == "__main__":
+    # Test cases (unique value pairs only)
+    assert find_pairs([2, 7, 11, 15, 3, 6], 9) == [(2, 7), (3, 6)]
+    assert find_pairs([1, 5, 3, 7, 2, 8], 10) == [(2, 8), (3, 7)]
+    assert find_pairs([1, 1, 1, 1], 2) == [(1, 1)]
+    # With "unique value pairs only" behavior, this returns one (5,5) pair
+    assert find_pairs([5, 5, 5, 5], 10) == [(5, 5)]
+
+    print("All tests passed.")

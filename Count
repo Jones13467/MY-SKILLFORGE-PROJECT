@@ -1,0 +1,20 @@
+def find_pairs_option_a_sorted_no_counter(arr, target):
+    counts = {}
+    for x in arr:
+        counts[x] = counts.get(x, 0) + 1
+    result = []
+    seen = set()
+    for v in sorted(counts):
+        w = target - v
+        if w not in counts:
+            continue
+        key = (min(v, w), max(v, w))
+        if key in seen:
+            continue
+        if v == w and counts[v] < 2:
+            continue
+        result.append(key)
+        seen.add(key)
+    return result
+
+print(find_pairs_option_a_sorted_no_counter([2,3,2,4,3], 5))  # -> [(2, 3)]
